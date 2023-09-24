@@ -5,37 +5,41 @@ if (window.ethereum) {
     console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
 }
 
+// Check if Web3 is injected by MetaMask or another wallet
+if (window.ethereum) {
+    window.web3 = new Web3(window.ethereum);
+} else {
+    console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+}
+
 // Event listener for the "Connect Wallet" button
 document.getElementById('connect-wallet').addEventListener('click', async () => {
-    if (window.ethereum) {
-        try {
-            // Request account access
-            await window.ethereum.enable();
+    try {
+        // Request account access
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-            const contractAddress = '0x1468fdac6c7a8ec9faffaf65c3bfb0b8e4a3f2fe'; 
-            const tokenId = '1'; 
-            const contractABI = [[{"inputs":[{"internalType":"address","name":"_logic","type":"address"},{"internalType":"address","name":"admin_","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"stateMutability":"payable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"admin_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newAdmin","type":"address"}],"name":"changeAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"implementation","outputs":[{"internalType":"address","name":"implementation_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}]]; // Replace with your actual contract ABI
+        const contractAddress = '0x1468fdac6c7a8ec9faffaf65c3bfb0b8e4a3f2fe'; 
+        const tokenId = '1'; 
+        const contractABI = [...]; // Replace with your actual contract ABI
 
-            const contract = new web3.eth.Contract(contractABI, contractAddress);
-            const userAddress = await web3.eth.getAccounts().then(accounts => accounts[0]);
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const userAddress = (await web3.eth.getAccounts())[0];
 
-            // Check the ownership of the NFT
-            contract.methods.ownerOf(tokenId).call().then(owner => {
-                if (owner === userAddress) {
-                    // User owns the NFT, display the main content
-                    document.getElementById('main-content').style.display = 'block';
-                } else {
-                    // User does not own the NFT, display a message
-                    alert('You do not own the required NFT to access this content.');
-                }
-            });
-        } catch (error) {
-            console.error('User denied account access');
+        // Check the ownership of the NFT
+        const owner = await contract.methods.ownerOf(tokenId).call();
+        if (owner === userAddress) {
+            // User owns the NFT, display the main content
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            // User does not own the NFT, display a message
+            alert('You do not own the required NFT to access this content.');
         }
-    } else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    } catch (error) {
+        console.error('User denied account access or other error occurred:', error);
     }
 });
+
+// Additional JavaScript for animating the fish, fish food, and flakes can be added here
 
 // Fish Animation
 const fish = document.getElementById('beta-fish');
