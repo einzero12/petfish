@@ -6,26 +6,31 @@ let directionX = 'right';
 let directionY = 'down';
 let speed = 1; // Adjust the speed as needed
 
+// Define the sequence of movements
+const movements = [
+    { angle: 0, distance: 500 }, // Move right
+    { angle: 110, distance: 300 }, // Move up at a 110-degree angle
+    { angle: 210, distance: 200 }, // Move down at a 210-degree angle
+    { angle: 270, distance: 250 } // Move down at a 270-degree angle
+];
+
+let currentMovement = 0;
+let distanceMoved = 0;
+
 function moveFish() {
-    const fishPositionX = betaFish.offsetLeft;
-    const fishPositionY = betaFish.offsetTop;
-    const fishbowlPositionX = fishbowl.offsetLeft;
-    const fishbowlPositionY = fishbowl.offsetTop;
+    const movement = movements[currentMovement];
+    const radianAngle = movement.angle * (Math.PI / 180);
     
-    if (directionX === 'right') {
-        betaFish.style.left = (fishPositionX + speed) + 'px';
-        if (fishPositionX >= fishbowlPositionX + 900) directionX = 'left';
-    } else {
-        betaFish.style.left = (fishPositionX - speed) + 'px';
-        if (fishPositionX <= fishbowlPositionX) directionX = 'right';
-    }
+    const deltaX = speed * Math.cos(radianAngle);
+    const deltaY = -speed * Math.sin(radianAngle);
     
-    if (directionY === 'down') {
-        betaFish.style.top = (fishPositionY + speed) + 'px';
-        if (fishPositionY >= fishbowlPositionY + 900) directionY = 'up';
-    } else {
-        betaFish.style.top = (fishPositionY - speed) + 'px';
-        if (fishPositionY <= fishbowlPositionY) directionY = 'down';
+    betaFish.style.left = (betaFish.offsetLeft + deltaX) + 'px';
+    betaFish.style.top = (betaFish.offsetTop + deltaY) + 'px';
+    
+    distanceMoved += speed;
+    if (distanceMoved >= movement.distance) {
+        distanceMoved = 0;
+        currentMovement = (currentMovement + 1) % movements.length;
     }
     
     requestAnimationFrame(moveFish);
