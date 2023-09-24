@@ -1,6 +1,5 @@
 const betaFish = document.getElementById('beta-fish');
 const fishFood = document.getElementById('fish-food');
-const fishbowl = document.getElementById('fishbowl');
 
 let speed = 1; // Adjust the speed as needed
 
@@ -59,4 +58,5 @@ betaFish.style.top = (window.innerHeight / 2 - betaFish.height / 2) + 'px';
 
 // Start the fish movement
 moveFish();
+
 
