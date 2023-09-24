@@ -15,6 +15,10 @@
 
 <div id="main-content" style="display:none;">
 
+#main-content {
+    display: none;
+}
+
 body {
     background-color: blue;
 }
