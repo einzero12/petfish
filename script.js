@@ -2,8 +2,6 @@ const betaFish = document.getElementById('beta-fish');
 const fishFood = document.getElementById('fish-food');
 const fishbowl = document.getElementById('fishbowl');
 
-let directionX = 'right';
-let directionY = 'down';
 let speed = 1; // Adjust the speed as needed
 
 // Define the sequence of movements
@@ -54,5 +52,12 @@ fishFood.addEventListener('click', function() {
     
     fall();
 });
+
+// Center the fish initially
+betaFish.style.left = (window.innerWidth / 2 - betaFish.width / 2) + 'px';
+betaFish.style.top = (window.innerHeight / 2 - betaFish.height / 2) + 'px';
+
+// Start the fish movement
+moveFish();
 
 moveFish();
