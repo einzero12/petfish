@@ -60,4 +60,3 @@ betaFish.style.top = (window.innerHeight / 2 - betaFish.height / 2) + 'px';
 // Start the fish movement
 moveFish();
 
-moveFish();
