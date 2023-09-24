@@ -1,57 +1,7 @@
-<div id="main-content" style="display:none;">
 body {
     background-color: blue;
-    margin: 0;
-    overflow: hidden;
 }
 
-#fish-food-container {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#fish-food {
-    display: block;
-    transition: transform 0.5s ease-in-out;
-}
-
-#fish-food:hover {
-    transform: rotate(120deg);
-}
-
-#fishbowl-container {
-    position: fixed;
-    top: 100px; /* Adjust as needed to position below the fish food */
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#fishbowl {
-    width: 1000px;
-}
-
-#beta-fish {
-    position: absolute;
-    width: 100px; /* Adjust as needed */
-    animation: float 5s infinite alternate;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(20px);
-    }
-}
-
-.flake {
-    position: absolute;
-    width: 30px;
-}
-</div>
 .wallet-button {
     position: fixed;
     left: 10px;
@@ -66,3 +16,49 @@ body {
 .wallet-button:hover {
     background-color: #f0f0f0;
 }
+
+#fish-food-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#fish-food {
+    width: 100px;
+    cursor: pointer;
+}
+
+#fishbowl-container {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    width: 1000px;
+    transform: translateX(-50%);
+}
+
+#fishbowl {
+    width: 100%;
+}
+
+#beta-fish {
+    position: absolute;
+    width: 150px;
+    animation: moveFish 20s linear infinite;
+}
+
+@keyframes moveFish {
+    0%, 100% {
+        transform: translate(50vw, 50vh);
+    }
+    25% {
+        transform: translate(80vw, 20vh);
+    }
+    50% {
+        transform: translate(50vw, 80vh);
+    }
+    75% {
+        transform: translate(20vw, 50vh);
+    }
+}
+
