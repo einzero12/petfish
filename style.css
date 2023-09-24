@@ -1,0 +1,41 @@
+body {
+    background-color: blue;
+    margin: 0;
+    overflow: hidden;
+}
+
+#fish-food-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#fish-food {
+    display: block;
+    transition: transform 0.5s ease-in-out;
+}
+
+#fish-food:hover {
+    transform: rotate(120deg);
+}
+
+#beta-fish {
+    position: absolute;
+    width: 150px;
+    animation: float 5s infinite alternate;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(20px);
+    }
+}
+
+.flake {
+    position: absolute;
+    width: 30px;
+}
