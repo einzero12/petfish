@@ -59,28 +59,35 @@ betaFish.style.top = (window.innerHeight / 2 - betaFish.height / 2) + 'px';
 // Start the fish movement
 moveFish();
 
+// Check if Web3 is injected by MetaMask or another wallet
+if (window.ethereum) {
+    window.web3 = new Web3(window.ethereum);
+} else {
+    console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+}
 
+// Event listener for the "Connect Wallet" button
 document.getElementById('connect-wallet').addEventListener('click', async () => {
     if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
         try {
             // Request account access
             await window.ethereum.enable();
 
-            const contractAddress = '0x1468fdac6c7a8ec9faffaf65c3bfb0b8e4a3f2fe'; // The address of your NFT contract
+            const contractAddress = '0x1468fdac6c7a8ec9faffaf65c3bfb0b8e4a3f2fe.'; // Replace with your contract address
             const tokenId = '1'; // The ID of the token you want to check for
-            const contractABI = [{"inputs":[{"internalType":"address","name":"_logic","type":"address"},{"internalType":"address","name":"admin_","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"stateMutability":"payable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"admin_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newAdmin","type":"address"}],"name":"changeAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"implementation","outputs":[{"internalType":"address","name":"implementation_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}] // The ABI of your NFT contract
+            const contractABI = [[{"inputs":[{"internalType":"address","name":"_logic","type":"address"},{"internalType":"address","name":"admin_","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"stateMutability":"payable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"admin_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newAdmin","type":"address"}],"name":"changeAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"implementation","outputs":[{"internalType":"address","name":"implementation_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}]]; // Replace with your contract ABI
 
             const contract = new web3.eth.Contract(contractABI, contractAddress);
             const userAddress = await web3.eth.getAccounts().then(accounts => accounts[0]);
 
+            // Check the ownership of the NFT
             contract.methods.ownerOf(tokenId).call().then(owner => {
                 if (owner === userAddress) {
-                    console.log('User owns the NFT!');
-                    // Unlock the content or navigate to the main page
+                    // User owns the NFT, display the main content
+                    document.getElementById('main-content').style.display = 'block';
                 } else {
-                    console.log('User does not own the NFT.');
-                    // Display a message or lock the content
+                    // User does not own the NFT, display a message
+                    alert('You do not own the required NFT to access this content.');
                 }
             });
         } catch (error) {
