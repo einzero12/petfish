@@ -20,9 +20,20 @@ body {
     transform: rotate(120deg);
 }
 
+#fishbowl-container {
+    position: fixed;
+    top: 100px; /* Adjust as needed to position below the fish food */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#fishbowl {
+    width: 1000px;
+}
+
 #beta-fish {
     position: absolute;
-    width: 150px;
+    width: 100px; /* Adjust as needed */
     animation: float 5s infinite alternate;
 }
 
