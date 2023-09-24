@@ -1,3 +1,4 @@
+<div id="main-content" style="display:none;">
 body {
     background-color: blue;
     margin: 0;
@@ -50,7 +51,7 @@ body {
     position: absolute;
     width: 30px;
 }
-
+</div>
 .wallet-button {
     position: fixed;
     left: 10px;
